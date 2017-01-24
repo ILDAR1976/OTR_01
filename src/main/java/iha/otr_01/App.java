@@ -43,7 +43,6 @@ public class App
 			if (this.IsIndexOutOfBound(d)) this.d = d; else throw new IndexOutOfBoundsException();
 		}
 		
-		
 		@Override
 		public boolean equals(Object ip) {
 			if (!(ip instanceof IPAddress)) return false;
@@ -191,8 +190,8 @@ public class App
         
         if ((new IPAddress(prm2)).gt(new IPAddress(prm1))) {
 			System.out.println( 
-	        		            "Parametr N1 = " + prm1 + 
-	        		            " Parametr N2 = " + prm2 + "\n"
+	        		            "Parameter N1 = " + prm1 + 
+	        		            " Parameter N2 = " + prm2 + "\n"
 	        		          );
 			
 			for (IPAddress item : IP.getAddressRange(
@@ -203,14 +202,13 @@ public class App
 	        }
         } else {
 			System.out.println( 
-		            "Parametr N2 = " + prm2 + 
-		            " <= Parametr N1 = " + prm1 + "\n" +
-		            "The program can't complete \n"		
+		            "Parameter N2 = " + prm2 + 
+		            " <= Parameter N1 = " + prm1 + "\n" +
+		            "Operation is not possible \n"		
 		          );
         	
         }
 	}
-	
 	
 	public static void main( String[] args ) throws CloneNotSupportedException
     {
