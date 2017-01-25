@@ -1,7 +1,7 @@
 package iha.otr_01;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+
 
 public class App 
 {
@@ -34,13 +34,13 @@ public class App
 		public IPAddress(String str){
 			this.convert(str);
 			
-			if (this.IsIndexOutOfBound(a)) this.a = a; else throw new IndexOutOfBoundsException();
+			if (!this.IsIndexOutOfBound(this.a)) throw new IndexOutOfBoundsException();
 			
-			if (this.IsIndexOutOfBound(b)) this.b = b; else throw new IndexOutOfBoundsException();
+			if (!this.IsIndexOutOfBound(this.b)) throw new IndexOutOfBoundsException();
 			
-			if (this.IsIndexOutOfBound(c)) this.c = c; else throw new IndexOutOfBoundsException();
+			if (!this.IsIndexOutOfBound(this.c)) throw new IndexOutOfBoundsException();
 			
-			if (this.IsIndexOutOfBound(d)) this.d = d; else throw new IndexOutOfBoundsException();
+			if (!this.IsIndexOutOfBound(this.d)) throw new IndexOutOfBoundsException();
 		}
 		
 		@Override

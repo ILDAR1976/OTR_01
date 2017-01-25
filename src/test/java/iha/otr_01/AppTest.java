@@ -21,16 +21,19 @@ public class AppTest {
 	
 	
 	public class TestIPAddress extends App {
+		@SuppressWarnings("unused")
 		public TestIPAddress(){
 			IPAddress IP = new IPAddress();
 			if (IP == null) throw new NullPointerException();
 		}
 
+		@SuppressWarnings("unused")
 		public TestIPAddress(int a,int b,int c,int d){
 			IPAddress IP = new IPAddress(a,b,c,d);
 			if (IP == null) throw new NullPointerException();
 		}
 
+		@SuppressWarnings("unused")
 		public TestIPAddress(String str){
 			IPAddress IP = new IPAddress(str);
 			if (IP == null) throw new NullPointerException();
@@ -57,6 +60,25 @@ public class AppTest {
 				return false;
 			}
 		}
+	
+		public boolean TestIPAddressToString(){
+			IPAddress ip = new IPAddress(12,233,45,1);
+			if ("12.233.45.1" == ip.toString()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		/*
+		public boolean TestIPAddressPrintIPToConsole(){
+			IPAddress ip = new IPAddress(12,233,45,1);
+			if ("12.233.45.1" == ip.printIPToConsole()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		*/
 	}
 	
 	public class TestSetForIPAddressConstructors {
@@ -202,5 +224,10 @@ public class AppTest {
 			assertFalse(true);
 		}
 	
+	}
+	
+	@Test
+	public void testCorrectToString(){
+		
 	}
 }	
