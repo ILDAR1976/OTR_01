@@ -15,6 +15,7 @@ public class AppTest {
 	App A = new App();
 	TestIPAddress sct = null;
 	App.IPAddress ip = null;
+	TestIPAddress sctWork = new TestIPAddress();
 	ArrayList<TestSetForIPAddressConstructors> ipSetList =
 			 new ArrayList<TestSetForIPAddressConstructors>();
 	
@@ -33,6 +34,28 @@ public class AppTest {
 		public TestIPAddress(String str){
 			IPAddress IP = new IPAddress(str);
 			if (IP == null) throw new NullPointerException();
+		}
+	
+		public boolean TestIPAddressEquals(String a,String b){
+			IPAddress ip1 = new IPAddress(a);
+			IPAddress ip2 = new IPAddress(b);
+			
+			if (ip1.equals(ip2)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		public boolean TestIPAddressHashCode(String a,String b){
+			IPAddress ip1 = new IPAddress(a);
+			IPAddress ip2 = new IPAddress(b);
+			
+			if (ip1.hashCode() == ip2.hashCode()) {
+				return true;
+			} else {
+				return false;
+			}
 		}
 	}
 	
@@ -130,5 +153,54 @@ public class AppTest {
 			assertTrue(false);
 		}
     }
+
+	@Test 
+	public void testCorrectWorkingHashCode(){
+		int trueTest =  0;
+		int falseTest = 0;
+		
+		if (sctWork.TestIPAddressHashCode("2.34.1.175","2.34.1.175")) trueTest++;
 	
+		if (sctWork.TestIPAddressHashCode("12.134.1.175","12.134.1.175")) trueTest++;
+	
+		if (sctWork.TestIPAddressHashCode("1.255.78.255","1.255.78.255")) trueTest++;
+	
+		if (!sctWork.TestIPAddressHashCode("1.255.78.255","2.255.78.255")) falseTest++;
+
+		if (!sctWork.TestIPAddressHashCode("1.0.78.255","2.55.78.255")) falseTest++;
+		
+		if (!sctWork.TestIPAddressHashCode("1.0.78.0","255.1.78.85")) falseTest++;
+		
+		if ((trueTest == 3) && (falseTest == 3)) {
+			assertTrue(true);
+		} else {
+			assertFalse(true);
+		}
+	
+	}
+	
+	@Test 
+	public void testCorrectWorkingEquals(){
+		int trueTest =  0;
+		int falseTest = 0;
+		
+		if (sctWork.TestIPAddressEquals("2.34.1.175","2.34.1.175")) trueTest++;
+	
+		if (sctWork.TestIPAddressEquals("12.134.1.175","12.134.1.175")) trueTest++;
+	
+		if (sctWork.TestIPAddressEquals("1.255.78.255","1.255.78.255")) trueTest++;
+	
+		if (!sctWork.TestIPAddressEquals("1.255.78.255","2.255.78.255")) falseTest++;
+
+		if (!sctWork.TestIPAddressEquals("1.0.78.255","2.55.78.255")) falseTest++;
+		
+		if (!sctWork.TestIPAddressEquals("1.0.78.0","255.1.78.85")) falseTest++;
+		
+		if ((trueTest == 3) && (falseTest == 3)) {
+			assertTrue(true);
+		} else {
+			assertFalse(true);
+		}
+	
+	}
 }	
