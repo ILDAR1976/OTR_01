@@ -2,6 +2,9 @@ package iha.otr_01;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 import org.junit.*;
@@ -19,6 +22,35 @@ public class AppTest {
 	ArrayList<TestSetForIPAddressConstructors> ipSetList =
 			 new ArrayList<TestSetForIPAddressConstructors>();
 	
+	public class RedirectOutputStream extends OutputStream {
+
+	    private StringBuffer buffer = new StringBuffer();
+
+	    public void write(int b) throws IOException {
+	        char currentChar = (char) b;
+
+	        // skip this symbol
+	        if (currentChar == '\r') {
+	            return;
+	        }
+
+	        // check for a new line
+	        if (currentChar == '\n') {
+	            flushBuffer();
+	        } else {
+	            buffer.append(currentChar);
+	        }
+	    }
+
+	    private void flushBuffer() {
+	        System.out.println(buffer.toString());
+	        buffer.delete(0, buffer.length());
+	    }
+	    
+	    public String getBuffer() {
+	    	return buffer.toString();
+	    }
+	}
 	
 	public class TestIPAddress extends App {
 		@SuppressWarnings("unused")
@@ -63,22 +95,34 @@ public class AppTest {
 	
 		public boolean TestIPAddressToString(){
 			IPAddress ip = new IPAddress(12,233,45,1);
-			if ("12.233.45.1" == ip.toString()) {
+
+			if (ip.toString().indexOf("12.233.45.1") > 0) {
 				return true;
 			} else {
 				return false;
 			}
 		}
-		/*
+		
 		public boolean TestIPAddressPrintIPToConsole(){
+			PrintStream ps = System.out;
+
+			RedirectOutputStream ros = new RedirectOutputStream();
+			
+			System.setOut(new PrintStream(ros, true));		
+
 			IPAddress ip = new IPAddress(12,233,45,1);
-			if ("12.233.45.1" == ip.printIPToConsole()) {
+
+			ip.printIPToConsole();
+			
+			System.setOut(ps);
+			
+			if (ros.getBuffer().indexOf("12.233.45.1") > 0) {
 				return true;
 			} else {
 				return false;
 			}
 		}
-		*/
+		
 	}
 	
 	public class TestSetForIPAddressConstructors {
@@ -228,6 +272,19 @@ public class AppTest {
 	
 	@Test
 	public void testCorrectToString(){
-		
+		if (sctWork.TestIPAddressToString()) {
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testCorrectPrintIPToConsole(){
+		if (sctWork.TestIPAddressPrintIPToConsole()) {
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
 	}
 }	

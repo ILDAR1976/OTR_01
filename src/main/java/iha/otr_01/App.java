@@ -76,7 +76,7 @@ public class App
 					Integer.toString(a) + "." +
 					Integer.toString(b) + "." +
 					Integer.toString(c) + "." +
-					Integer.toString(d) + "\n";
+					Integer.toString(d);
 			return str;
 		}
 
@@ -97,7 +97,7 @@ public class App
 					Integer.toString(this.b) + "." +
 					Integer.toString(this.c) + "." +
 					Integer.toString(this.d);
-			System.out.println(str);
+			System.out.print(str);
 		}
 		
 		public void add() {
@@ -199,6 +199,7 @@ public class App
 					new IPAddress(prm2))
 				) {
 	        	item.printIPToConsole();
+	        	System.out.println();
 	        }
         } else {
 			System.out.println( 
