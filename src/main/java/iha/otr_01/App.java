@@ -2,7 +2,6 @@ package iha.otr_01;
 
 import java.util.ArrayList;
 
-
 public class App 
 {
 	public class IPAddress implements Cloneable{

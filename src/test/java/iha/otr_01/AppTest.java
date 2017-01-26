@@ -122,7 +122,131 @@ public class AppTest {
 				return false;
 			}
 		}
+
+		public boolean TestIPAddressGT(){
+			int trueTest = 0;
+			int falseTest = 0;
+			
+			if (!(new IPAddress("1.2.2.10")).gt(new IPAddress("1.2.2.10"))) falseTest++; 
+			
+			if (!(new IPAddress("1.2.2.100")).gt(new IPAddress("1.2.2.100"))) falseTest++; 
+			
+			if (!(new IPAddress("1.255.255.155")).gt(new IPAddress("1.255.255.155"))) falseTest++; 
+			
+			if (!(new IPAddress("1.2.2.9")).gt(new IPAddress("1.2.2.10"))) falseTest++; 
+			
+			if (!(new IPAddress("255.2.2.155")).gt(new IPAddress("255.2.2.255"))) falseTest++; 
+			
+			if (!(new IPAddress("255.255.255.155")).gt(new IPAddress("255.255.255.255"))) falseTest++; 
+			
+			if ((new IPAddress("1.2.2.155")).gt(new IPAddress("1.1.1.1"))) trueTest++; 
+			
+			if ((new IPAddress("255.255.2.15")).gt(new IPAddress("12.23.2.155"))) trueTest++; 
+
+			if ((new IPAddress("255.255.255.255")).gt(new IPAddress("190.255.6.185"))) trueTest++; 
+			
+			if ((trueTest == 3) && (falseTest == 6)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	
+		public boolean TestIPAddressAdd(){
+			int trueTest = 0;
+			IPAddress ip = new IPAddress(0,0,0,0);
+			
+			for (int i = 0; i < 100; i++)
+				ip.add();
+			
+			if (ip.toString().indexOf("0.0.0.100") > 0) trueTest++;
+			
+			for (int i = 0; i < 156; i++)
+				ip.add();
+			
+			if (ip.toString().indexOf("0.0.1.0") > 0) trueTest++;
+			
+			for (int i = 0; i < 255*256; i++)
+				ip.add();
+			
+			if (ip.toString().indexOf("0.1.0.0") > 0) trueTest++;
+
+			for (int i = 0; i < 255*256*256; i++)
+				ip.add();
+			
+			if (ip.toString().indexOf("1.0.0.0") > 0) trueTest++;
+			
+			if (trueTest == 4) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	
+		public boolean TestIPAddressConvert(){
+			int trueTest = 0;
+			
+			IPAddress ip = new IPAddress("0.0.0.0");
+			
+			ip.convert("0.0.0.1");
+			
+			if (ip.equals(new IPAddress("0.0.0.1"))) trueTest++ ;
+			
+			ip.convert("0.0.1.0");
+			
+			if (ip.equals(new IPAddress("0.0.1.0"))) trueTest++ ;
+			
+			ip.convert("0.1.0.0");
+			
+			if (ip.equals(new IPAddress("0.1.0.0"))) trueTest++ ;
+			
+			ip.convert("1.0.0.0");
+			
+			if (ip.equals(new IPAddress("1.0.0.0"))) trueTest++ ;
+			
+			if (trueTest == 4) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 		
+		public boolean TestIPAddressGetAddressRange() throws CloneNotSupportedException{
+			int trueTest = 0;
+			int falseTest = 0;
+			
+			IPAddress ip = new IPAddress();
+			
+			ArrayList<IPAddress> ipList = new ArrayList<IPAddress>();
+			
+			ipList = ip.getAddressRange(new IPAddress("10.0.0.1"), 
+					                    new IPAddress("10.0.0.9"));
+			
+			if ((ipList.size() == 9) && 
+			    (ipList.indexOf(new IPAddress("10.0.0.2")) == 1) && 
+			    (ipList.indexOf(new IPAddress("10.0.0.8")) == 7)) trueTest++;
+			
+			ipList = ip.getAddressRange(new IPAddress("255.255.0.1"), 
+                    					new IPAddress("255.255.1.0"));
+
+			
+			if ((ipList.size() == 256) && 
+			(ipList.indexOf(new IPAddress("255.255.0.5")) == 4) && 
+			(ipList.indexOf(new IPAddress("255.255.0.245")) == 244)) trueTest++;
+			
+			ipList = ip.getAddressRange(new IPAddress("100.0.0.1"), 
+                    					new IPAddress("100.0.0.9"));
+
+			if ((ipList.size() == 9) && 
+			(ipList.indexOf(new IPAddress("100.0.0.2")) == 1) && 
+			(ipList.indexOf(new IPAddress("100.0.0.8")) == 7)) trueTest++;
+			
+			if (trueTest == 3){
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 	
 	public class TestSetForIPAddressConstructors {
@@ -284,6 +408,88 @@ public class AppTest {
 		if (sctWork.TestIPAddressPrintIPToConsole()) {
 			assertTrue(true);
 		} else {
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testCorrectGT(){
+		if (sctWork.TestIPAddressGT()) {
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
+	}
+
+	@Test
+	public void testCorrectAdd(){
+		if (sctWork.TestIPAddressAdd()) {
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testCorrectConvert(){
+		if (sctWork.TestIPAddressConvert()){
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testCorrectGetAddressRange() throws CloneNotSupportedException{
+		if (sctWork.TestIPAddressGetAddressRange()){
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testCorrectRun(){
+		int trueTest = 0;
+		
+		try {
+			sctWork.Run("10.0.10.2", "10.0.10.120");
+			trueTest++;
+		}
+		catch (Exception e) {
+		}
+
+		try {
+			sctWork.Run("192.168.10.2", "192.168.10.20");
+			trueTest++;
+		}
+		catch (Exception e) {
+		}
+
+		try {
+			sctWork.Run("255.255.255.2", "255.255.255.6");
+			trueTest++;
+		}
+		catch (Exception e) {
+		}
+		
+		if (trueTest == 3) {
+			assertTrue(true);
+		} else {
+			assertTrue(false);
+		}
+	}
+	
+	@Test
+	public void testCorrectMain(){
+		String[] args = new String[2];
+		try {
+			args[0] = "192.168.0.1";
+			args[1] = "192.168.0.2";
+			App.main(args);
+			assertTrue(true);
+		}
+		catch (Exception e) {
 			assertTrue(false);
 		}
 	}
